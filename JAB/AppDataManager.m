@@ -42,9 +42,11 @@
     
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *requestSuccess, NSHTTPURLResponse *responseSuccess, id JSON) {
         // Success...
+        __weak typeof(self) weakSelf = self;
+
         if (JSON && [JSON isKindOfClass:[NSArray class]]) {
             // Pass json array object to use as live data
-            [self fetchedData:JSON];
+            [weakSelf fetchedData:JSON];
         }
         
     } failure:^(NSURLRequest *requestFailure, NSHTTPURLResponse *responseFailure, NSError *error, id JSON) {
@@ -57,9 +59,9 @@
             NSLog(@"JSON : %@", JSON);
 
             // Call method on main thread to display UI alert view with generic error message
-            [self performSelectorOnMainThread:@selector(showErrorMessage)
-                                   withObject:nil
-                                waitUntilDone:NO];
+            [weakSelf performSelectorOnMainThread:@selector(showErrorMessage)
+                                       withObject:nil
+                                    waitUntilDone:NO];
         }
     }];
     
