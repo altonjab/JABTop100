@@ -39,10 +39,10 @@
 
 - (void)invokeServiceCall {
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:AppDataManagerFetchTopWordsDataURLString]];
+    __weak typeof(self) weakSelf = self;
     
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *requestSuccess, NSHTTPURLResponse *responseSuccess, id JSON) {
         // Success...
-        __weak typeof(self) weakSelf = self;
 
         if (JSON && [JSON isKindOfClass:[NSArray class]]) {
             // Pass json array object to use as live data
